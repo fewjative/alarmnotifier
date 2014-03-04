@@ -1,0 +1,9 @@
+Package: com.joshdoctors.alarmnotifier
+Name: AlarmNotifier
+Depends: mobilesubstrate, firmware (>= 7)
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: After setting an alarm, you will be notified through an alert as to when the alarm will go off.
+Maintainer: Josh Doctors
+Author: Josh Doctors
+Section: Tweaks

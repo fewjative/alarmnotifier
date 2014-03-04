@@ -1,0 +1,10 @@
+{
+    entry = {
+	bundle = AlarmNotifier;
+	cell = PSLinkCell;
+	detail = AlarmNotifierListController;
+	icon = AlarmNotifier.png;
+	isController = 1;
+	label = AlarmNotifier;
+    };
+}
