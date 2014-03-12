@@ -4,6 +4,8 @@ static BOOL enableTweak = YES;
 static BOOL enableAutoDismiss = YES;
 static NSInteger delayAmount = 3;
 static BOOL enableAlarmTitle = NO;
+static BOOL onCreation = YES;
+static BOOL onToggle = YES;
 
 %hook EditAlarmViewController
 
@@ -12,7 +14,7 @@ static BOOL enableAlarmTitle = NO;
     %log; 
     %orig; 
 
-    if(enableTweak)
+    if(enableTweak && onCreation)
     {
         NSString *output = [NSString stringWithFormat:@"%ld hours, %ld minutes left",(long)hours,(long)minutes];
 
@@ -111,11 +113,9 @@ static BOOL enableAlarmTitle = NO;
 
     if(enableTweak)
     {
-    	if(enableAlarmTitle)
+    	if(active)
     	{
-    		if(active)
-    		{
-                NSInteger alarmhours = (int)[[alarm valueForKey:@"hour"] integerValue];
+    			NSInteger alarmhours = (int)[[alarm valueForKey:@"hour"] integerValue];
                 NSInteger alarmminutes = (int)[[alarm valueForKey:@"minute"] integerValue];
 
                 NSDate *date = [NSDate date];
@@ -144,6 +144,43 @@ static BOOL enableAlarmTitle = NO;
                     minutes = diff / 60;
                 }
 
+            NSString *output = [NSString stringWithFormat:@"%ld hours, %ld minutes left",(long)hours,(long)minutes];
+
+            if(onToggle)
+        	{
+
+		        if(enableAutoDismiss)
+		        {
+		        	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Time Until Alarm Is Active" 
+		                message:output 
+		                delegate:nil 
+		                cancelButtonTitle:nil 
+		                otherButtonTitles:nil];
+		            [alert show];
+		            [self performSelector:@selector(dismiss:) withObject:alert afterDelay:delayAmount];
+		            [alert release];
+		        }
+		        else
+		        {
+		            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Time Until Alarm Is Active" 
+		                message:output 
+		                delegate:nil 
+		                cancelButtonTitle:@"Okay" 
+		                otherButtonTitles:nil];
+		            [alert show];
+		            [alert release];
+
+		        }
+   			}
+    	}
+
+        
+    
+
+    	if(enableAlarmTitle)
+    	{
+    		if(active)
+    		{
                 NSString *output = [NSString stringWithFormat:@"%ld hours, %ld minutes left",(long)hours,(long)minutes];
                 [alarm setValue:output forKey:@"title"];
 
@@ -156,6 +193,12 @@ static BOOL enableAlarmTitle = NO;
     }
 
 }
+
+%new -(void)dismiss:(UIAlertView*)x
+{
+    [x dismissWithClickedButtonIndex:-1 animated:YES];
+}
+
 %end
 
 static void loadPrefs() 
@@ -167,6 +210,8 @@ static void loadPrefs()
         enableTweak = ([prefs objectForKey:@"enableTweak"] ? [[prefs objectForKey:@"enableTweak"] boolValue] : enableTweak);
     	enableAutoDismiss = ([prefs objectForKey:@"enableAutoDismiss"] ? [[prefs objectForKey:@"enableAutoDismiss"] boolValue] : enableAutoDismiss);
     	enableAlarmTitle = ([prefs objectForKey:@"enableAlarmTitle"] ? [[prefs objectForKey:@"enableAlarmTitle"] boolValue] : enableAlarmTitle );
+    	onCreation = ([prefs objectForKey:@"onCreation"] ? [[prefs objectForKey:@"onCreation"] boolValue] : onCreation );
+    	onToggle = ([prefs objectForKey:@"onToggle"] ? [[prefs objectForKey:@"onToggle"] boolValue] : onToggle );
     	delayAmount = ([prefs objectForKey:@"delay"] ? [[prefs objectForKey:@"delay"] floatValue] : delayAmount);	
     }
     [prefs release];

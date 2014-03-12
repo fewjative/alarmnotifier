@@ -34,6 +34,34 @@
 			<key>defaults</key>
 			<string>com.joshdoctors.alarmnotifier</string>
 			<key>key</key>
+			<string>onCreation</string>
+			<key>label</key>
+			<string>Alert on Alarm Creation</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.joshdoctors.alarmnotifier/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.joshdoctors.alarmnotifier</string>
+			<key>key</key>
+			<string>onToggle</string>
+			<key>label</key>
+			<string>Alert on Alarm Toggle</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.joshdoctors.alarmnotifier/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.joshdoctors.alarmnotifier</string>
+			<key>key</key>
 			<string>enableAutoDismiss</string>
 			<key>label</key>
 			<string>Auto Dismiss Popup</string>
@@ -78,13 +106,13 @@
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
-			<true/>
+			<false/>
 			<key>defaults</key>
 			<string>com.joshdoctors.alarmnotifier</string>
 			<key>key</key>
 			<string>enableAlarmTitle</string>
 			<key>label</key>
-			<string>Alarm In Title</string>
+			<string>Alarm In Title*</string>
 		</dict>
 		<dict>
 			<key>cell</key>
